@@ -7,10 +7,10 @@
           <input type="text" v-model="todo.descricao" class="form-input" placeholder="Nova Tarefa">
           <button class ="btn btn-primary input-group-btn">Adicionar</button>
         </div>
-        <div class="todo-list">
-          <todo v-for= "t in todos" :key="t.id" :todo="t" />
-        </div>
       </form>
+      <div class="todo-list">
+          <todo v-for= "t in todos" :key="t.id"  @toggle="toggleTodo" :todo="t" @remove="removeTodo"  />
+        </div>
     </div>
   </div>
 </template>
@@ -26,9 +26,24 @@ export default {
   },
   methods: {
     addTodo(todo){
+      if(!todo==''){
       todo.id = Date.now()
       this.todos.push(todo)
       this.todo = {checked: false}
+      }
+    },
+    toggleTodo(todo){
+      const index = this.todos.findIndex(item => item.id === todo.id)
+      if (index>-1){
+        const checked = !this.todos[index].checked
+        this.$set(this.todos, index, {...this.todos[index], checked})
+    }
+    },
+    removeTodo(todo){
+      const index = this.todos.findIndex(item => item.id === todo.id)
+      if (index>-1){
+        this.$delete(this.todos, index)
+      }
     }
   },
 }
