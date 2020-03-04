@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     addTodo(todo){
-      if(!todo==''){
+      if(todo.descricao != ''){
       todo.id = Date.now()
       this.todos.push(todo)
       this.todo = {checked: false}
