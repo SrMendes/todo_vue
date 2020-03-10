@@ -1,3 +1,11 @@
 <template>
-    <div>ROTA FUNCIONANDO!</div>
+<div>
+        LISTA AQUI 
+    </div>
 </template>
+
+<script>
+export default {
+    
+}
+</script>

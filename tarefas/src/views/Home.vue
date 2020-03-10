@@ -4,7 +4,7 @@
       <form @submit.prevent="addTodo(todo)">
         <div class="input-group">
           <input type="text" v-model="todo.descricao" class="form-input" placeholder="Nova Tarefa">
-          <button class ="btn btn-primary input-group-btn">Adicionar</button>
+          <button class ="btn btn-primary input-group-btn" :class={loading}>Adicionar</button>
         </div>
       </form>
       <div class="todo-list">
@@ -20,15 +20,23 @@ export default {
   name: 'App',
   components:{Todo},
   data(){
-    return {todos:[], todo:{ checked: false}}
+    return { todo:{ checked: false}, loading: false}
+  },
+  computed: {
+    todos(){
+      return this.$store.state.todos
+    }
   },
   methods: {
-    addTodo(todo){
-      if(todo.descricao != ''){
-      todo.id = Date.now()
-      this.todos.push(todo)
+    async addTodo(todo){
+      try{
+        this.loading = true
+        await this.$store.dispatch('addTodo',todo)
       this.todo = {checked: false}
+      }finally{
+        this.loading= false
       }
+      
     },
     toggleTodo(todo){
       const index = this.todos.findIndex(item => item.id === todo.id)
